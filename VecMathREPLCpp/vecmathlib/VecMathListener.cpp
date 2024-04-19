@@ -84,6 +84,7 @@ void VecMathListener::exec(std::string code)
 
 std::shared_ptr<IMatrix> VecMathListener::getVariable(const std::string& id) const
 {
+	std::cout << "GOT\n";
 	if (m_VarMap.find(id) != m_VarMap.end()) {
 		return m_VarMap.at(id);
 	}
@@ -173,6 +174,20 @@ void VecMathListener::exitPrint(VecMath::VecMathParser::PrintContext* ctx)
 	else {
 		m_Console.SetColor(Console::VMF_BRIGHTRED);
 		std::cout << "Use the print statement with a variable id, for example: 'print var'\n";
+	}
+}
+
+void VecMathListener::exitDisplay(VecMath::VecMathParser::DisplayContext* ctx) 
+{
+	if (ctx->ID() != nullptr && ctx->ID()->getTreeType() != antlr4::tree::ParseTreeType::ERROR)
+	{
+		std::string id = ctx->ID()->getText();
+		std::cout << "Displaying " << id << " with value ";
+		printVariable(id);
+	}
+	else {
+		m_Console.SetColor(Console::VMF_BRIGHTRED);
+		std::cout << "Use the display statement with a variable id, for example: 'display var'\n";
 	}
 }
 
@@ -675,5 +690,3 @@ void VecMathListener::setUseColors(bool colors)
 {
 	m_Console.SetUseColors(colors);
 }
-
-

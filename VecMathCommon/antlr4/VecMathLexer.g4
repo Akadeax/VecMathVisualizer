@@ -37,6 +37,7 @@ SQRT: 'sqrt';
 PRINT: 'print';
 PRECISION: 'precision';
 PRINTALL: 'printAll';
+DISPLAY: 'display';
 EXIT: 'bye' | 'exit';
 CLEAR: 'clear';
 JOKE: 'joke';

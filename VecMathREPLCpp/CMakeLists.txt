@@ -39,14 +39,20 @@ if ( EMSCRIPTEN )
 endif()
 
 add_subdirectory(vecmathlib)
+
 add_subdirectory(vecmathmain)
-add_subdirectory(vecmathhtml)
+add_subdirectory(vecmathvisualizer)
+# add_subdirectory(vecmathhtml)
 
 
 add_dependencies(VecMathMain VecMathLib )
-add_dependencies(VecMathHtml VecMathLib )
+add_dependencies(VecMathVisualizer VecMathLib )
+# add_dependencies(VecMathHtml VecMathLib )
 
 target_include_directories (VecMathMain PUBLIC 
+	${VecMathLibIncludeDir}
+)
+target_include_directories (VecMathVisualizer PUBLIC 
 	${VecMathLibIncludeDir}
 )
 if (NOT EMSCRIPTEN)
@@ -67,8 +73,8 @@ set(CPACK_PACKAGE_VERSION_MINOR "0")
 SET(CPACK_PACKAGE_VERSION_PATCH "7")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "VecMath")
 #set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
-install(TARGETS VecMathMain RUNTIME DESTINATION bin RENAME VecMath )
-set(CPACK_CREATE_DESKTOP_LINKS "VecMathMain" "VecMath REPL shell")
-set(CPACK_PACKAGE_EXECUTABLES  "VecMathMain" "VecMath REPL shell")
+install(TARGETS VecMathVisualizer RUNTIME DESTINATION bin RENAME VecMath )
+set(CPACK_CREATE_DESKTOP_LINKS "VecMathVisualizer" "VecMath Visual Display & REPL")
+set(CPACK_PACKAGE_EXECUTABLES  "VecMathVisualizer" "VecMath Visual Display & REPL")
 include(CPack)
 

@@ -3,6 +3,7 @@
 #include "JokeGenerator.h"
 #include "IMatrix.h"
 #include "Console.h"
+#include "Signal.h"
 #include <map>
 #include <stack>
 #include <memory>
@@ -12,6 +13,8 @@ class VecMathListener :
 	public antlr4::ANTLRErrorListener
 {
 public:
+	Signal<const std::string&, IMatrix*> OnDisplayVar{};
+
 	VecMathListener();
 
 	void prompt(const std::string& text);
@@ -32,6 +35,7 @@ public:
 	void exitCommand(VecMath::VecMathParser::CommandContext* /*ctx*/) override;
 	void exitAssign(VecMath::VecMathParser::AssignContext* ctx) override;
 	void exitPrint(VecMath::VecMathParser::PrintContext* ctx) override;
+	void exitDisplay(VecMath::VecMathParser::DisplayContext* ctx) override;
 	void exitClear(VecMath::VecMathParser::ClearContext* ctx) override;
 	void exitLiteral(VecMath::VecMathParser::LiteralContext* ctx) override;
 	void exitVector(VecMath::VecMathParser::VectorContext* ctx) override;
@@ -67,10 +71,12 @@ public:
 	std::shared_ptr<IMatrix> popFromStack();
 	void pushToExprStack(IMatrix* toPush);
 	void addToConstantMap(std::string constantName, IMatrix* constant);
+
+	std::map<std::string, std::shared_ptr<IMatrix>> m_VarMap;
+
 private:
 	bool m_Exit{ false };
 	bool m_ErrorFlagged{ false };
-	std::map<std::string, std::shared_ptr<IMatrix>> m_VarMap;
 	std::map<std::string, std::shared_ptr<IMatrix>> m_Constants;
 	std::stack<std::shared_ptr<IMatrix>> m_ExprStack;
 	std::string m_CurrentCodeLine;

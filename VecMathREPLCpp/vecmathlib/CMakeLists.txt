@@ -16,7 +16,7 @@ ${VECMATH_COMMON_RESOURCE_DIR}/help.txt
 ${VECMATH_COMMON_RESOURCE_DIR}/jokes.txt
                ${ANTLR_VecMathLexer_CXX_OUTPUTS}
                ${ANTLR_VecMathParser_CXX_OUTPUTS} 
-               "VecMathListener.h" "VecMathListener.cpp" "IMatrix.h" "IMatrix.cpp" "Scalar.h" "Scalar.cpp" "Vector2D.h" "Vector2D.cpp" "Vector3D.h" "Vector3D.cpp" "Quaternion.h" "Quaternion.cpp" "JokeGenerator.h" "JokeGenerator.cpp" "Joke.h" "Joke.cpp"   "Complex.h" "Complex.cpp" "Console.h" "Console.cpp")
+               "VecMathListener.h" "VecMathListener.cpp" "IMatrix.h" "IMatrix.cpp" "Scalar.h" "Scalar.cpp" "Vector2D.h" "Vector2D.cpp" "Vector3D.h" "Vector3D.cpp" "Quaternion.h" "Quaternion.cpp" "JokeGenerator.h" "JokeGenerator.cpp" "Joke.h" "Joke.cpp"   "Complex.h" "Complex.cpp" "Console.h" "Console.cpp" "Signal.h" "Signal.cpp")
 target_link_libraries(VecMathLib antlr4_static)
 target_include_directories(VecMathLib INTERFACE
     "${CMAKE_CURRENT_SOURCE_DIR}"
