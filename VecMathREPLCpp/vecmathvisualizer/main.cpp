@@ -1,12 +1,14 @@
+#include "antlr4-runtime.h"
+
 #include "ANTLRInputStream.h"
+#include "Scalar.h"
 #include "VecMathLexer.h"
 #include "VecMathListener.h"
 #include "VecMathParser.h"
-#include "Vocabulary.h"
-#include "Scalar.h"
 #include "Vector3D.h"
-#include <iostream>
+#include "Vocabulary.h"
 #include <algorithm>
+#include <iostream>
 
 #ifdef _WIN32
 #ifndef NDEBUG
@@ -72,8 +74,7 @@ void printTokens(antlr4::CommonTokenStream& stream, const antlr4::dfa::Vocabular
     cout << endl;
 }
 
-
 void OnDisplayVar(const std::string& val, IMatrix* matrix)
 {
-	std::cout << "DISPLAY RECEIVED\n";
+    std::cout << "DISPLAY RECEIVED\n";
 }

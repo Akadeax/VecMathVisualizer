@@ -5,136 +5,130 @@
 Console::Console()
 {
 #ifdef _WIN32
-	m_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    m_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
-	SetPrecision(6);
+    SetPrecision(6);
 }
 
 void Console::Print(const unsigned short color, const std::string& text) const
 {
 #ifdef _WIN32
-	if (m_UseColors)
-	{
-		SetConsoleTextAttribute(m_ConsoleHandle, color);
-	}
-	std::cout << text;
+    if (m_UseColors)
+    {
+        SetConsoleTextAttribute(m_ConsoleHandle, color);
+    }
+    std::cout << text;
 #else
-	if (m_UseColors)
-	{
-		std::cout << '\033' << "[1;" << color << "m";
-	}
-	std::cout << text;
-	if (m_UseColors)
-	{
-		std::cout << '\033' << "[0m";
-	}
+    if (m_UseColors)
+    {
+        std::cout << '\033' << "[1;" << color << "m";
+    }
+    std::cout << text;
+    if (m_UseColors)
+    {
+        std::cout << '\033' << "[0m";
+    }
 #endif
 }
 
 void Console::Print(const unsigned short color, const float value) const
 {
 #ifdef _WIN32
-	if (m_UseColors)
-	{
-		SetConsoleTextAttribute(m_ConsoleHandle, color);
-	}
-	std::cout << value;
+    if (m_UseColors)
+    {
+        SetConsoleTextAttribute(m_ConsoleHandle, color);
+    }
+    std::cout << value;
 #else
-	if (m_UseColors)
-	{
-		std::cout << '\033' << "[1;" << color << "m";
-	}
-	std::cout << value;
-	if (m_UseColors)
-	{
-		std::cout << "\033[0m";
-	}
+    if (m_UseColors)
+    {
+        std::cout << '\033' << "[1;" << color << "m";
+    }
+    std::cout << value;
+    if (m_UseColors)
+    {
+        std::cout << "\033[0m";
+    }
 #endif
 }
 
 void Console::SetPrecision(const int precision)
 {
-	m_Precision = precision;
-	std::cout << std::fixed << std::showpoint << std::setprecision(precision);
+    m_Precision = precision;
+    std::cout << std::fixed << std::showpoint << std::setprecision(precision);
 }
 
 void Console::Print(const std::string& text) const
 {
-	std::cout << text;
+    std::cout << text;
 }
 
 void Console::Print(char singleCharacter) const
 {
-	std::cout << singleCharacter;
+    std::cout << singleCharacter;
 }
 
 void Console::SetColor(const unsigned short color) const
 {
 #ifdef _WIN32
-	if (m_UseColors) {
-		SetConsoleTextAttribute(m_ConsoleHandle, color);
-	}
+    if (m_UseColors)
+    {
+        SetConsoleTextAttribute(m_ConsoleHandle, color);
+    }
 #else
-	if (m_UseColors) {
-		std::cout << '\033' << "[1;" << color << "m";
-	}
+    if (m_UseColors)
+    {
+        std::cout << '\033' << "[1;" << color << "m";
+    }
 #endif
 }
 
 void Console::Reset()
 {
 #ifdef _WIN32
-	SetConsoleTextAttribute(m_ConsoleHandle, VMF_WHITE);
+    SetConsoleTextAttribute(m_ConsoleHandle, VMF_WHITE);
 #else
-	if (m_UseColors) {
-		std::cout << "\033[0m";
-	}
+    if (m_UseColors)
+    {
+        std::cout << "\033[0m";
+    }
 #endif
 }
 
 void Console::ClearScreen() const
 {
 #ifdef _WIN32
-	// source : https://www.cplusplus.com/articles/4z18T05o/
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	DWORD                      count;
-	DWORD                      cellCount;
-	COORD                      homeCoords = { 0, 0 };
-	/* Get the number of cells in the current buffer */
-	if (!GetConsoleScreenBufferInfo(m_ConsoleHandle, &csbi)) return;
-	cellCount = csbi.dwSize.X * csbi.dwSize.Y;
+    // source : https://www.cplusplus.com/articles/4z18T05o/
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    DWORD count;
+    DWORD cellCount;
+    COORD homeCoords = {0, 0};
+    /* Get the number of cells in the current buffer */
+    if (!GetConsoleScreenBufferInfo(m_ConsoleHandle, &csbi))
+        return;
+    cellCount = csbi.dwSize.X * csbi.dwSize.Y;
 
-	/* Fill the entire buffer with spaces */
-	if (!FillConsoleOutputCharacter(
-		m_ConsoleHandle,
-		(TCHAR)' ',
-		cellCount,
-		homeCoords,
-		&count
-	)) return;
+    /* Fill the entire buffer with spaces */
+    if (!FillConsoleOutputCharacter(m_ConsoleHandle, (TCHAR)' ', cellCount, homeCoords, &count))
+        return;
 
-	/* Fill the entire buffer with the current colors and attributes */
-	if (!FillConsoleOutputAttribute(
-		m_ConsoleHandle,
-		csbi.wAttributes,
-		cellCount,
-		homeCoords,
-		&count
-	)) return;
+    /* Fill the entire buffer with the current colors and attributes */
+    if (!FillConsoleOutputAttribute(m_ConsoleHandle, csbi.wAttributes, cellCount, homeCoords, &count))
+        return;
 
-	/* Move the cursor home */
-	SetConsoleCursorPosition(m_ConsoleHandle, homeCoords);
+    /* Move the cursor home */
+    SetConsoleCursorPosition(m_ConsoleHandle, homeCoords);
 #else
-	std::cout << "\033[2J\033[1;1H";
+    std::cout << "\033[2J\033[1;1H";
 #endif
 }
 
 void Console::NewLine() const
 {
-	std::cout << "\n";
+    std::cout << "\n";
 }
 
 void Console::SetUseColors(bool useColors)
 {
-	m_UseColors = useColors;
+    m_UseColors = useColors;
 }
