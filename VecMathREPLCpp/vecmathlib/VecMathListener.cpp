@@ -198,8 +198,14 @@ void VecMathListener::exitDisplay(VecMath::VecMathParser::DisplayContext* ctx)
     if (ctx->ID() != nullptr && ctx->ID()->getTreeType() != antlr4::tree::ParseTreeType::ERROR)
     {
         std::string id = ctx->ID()->getText();
-        std::cout << "Displaying " << id << " with value ";
-        printVariable(id);
+        if (m_VarMap.find(id) == m_VarMap.end())
+        {
+            std::cout << "Variable " << id << " does not exist.\n";
+            return;
+        }
+
+        std::cout << "Displaying " << id << ".\n";
+        OnDisplayVar.Emit(id);
     }
     else
     {

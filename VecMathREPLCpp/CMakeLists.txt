@@ -9,8 +9,10 @@ endif (WIN32)
 set( ANTLR4_TAG "4.10.1")
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-# compiler must be 11 or 14
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 
 # required if linking to static library
 add_definitions(-DANTLR4CPP_STATIC)
@@ -49,15 +51,15 @@ add_dependencies(VecMathMain VecMathLib )
 add_dependencies(VecMathVisualizer VecMathLib )
 # add_dependencies(VecMathHtml VecMathLib )
 
-target_include_directories (VecMathMain PUBLIC 
+target_include_directories (VecMathMain PUBLIC
 	${VecMathLibIncludeDir}
 )
-target_include_directories (VecMathVisualizer PUBLIC 
+target_include_directories (VecMathVisualizer PUBLIC
 	${VecMathLibIncludeDir}
 )
 if (NOT EMSCRIPTEN)
 	add_subdirectory(unittests)
-	target_include_directories (UnitTests PUBLIC 
+	target_include_directories (UnitTests PUBLIC
 		${VecMathLibIncludeDir}
 	)
 	add_dependencies(VecMathMain UnitTestsRun)
@@ -77,4 +79,3 @@ install(TARGETS VecMathVisualizer RUNTIME DESTINATION bin RENAME VecMath )
 set(CPACK_CREATE_DESKTOP_LINKS "VecMathVisualizer" "VecMath Visual Display & REPL")
 set(CPACK_PACKAGE_EXECUTABLES  "VecMathVisualizer" "VecMath Visual Display & REPL")
 include(CPack)
-
