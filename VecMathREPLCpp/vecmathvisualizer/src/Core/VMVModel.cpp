@@ -9,6 +9,7 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/hash.hpp>
+#include <iostream>
 
 // Apparently this is the way recommended by https://en.cppreference.com/w/cpp/utility/hash
 // to specify a template specialization for std::hash
@@ -161,6 +162,7 @@ void vmv::VMVModel::Builder::LoadModel(const std::string& filePath)
 
     if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, filePath.c_str()))
     {
+        std::cout << "Model load failed!\n";
         throw std::runtime_error(warn + err);
     }
 

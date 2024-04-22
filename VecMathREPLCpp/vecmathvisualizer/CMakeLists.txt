@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(EXECUTABLE_OUTPUT_DIR "${CMAKE_BINARY_DIR}/bin/Debug")
+set(EXECUTABLE_OUTPUT_DIR "${CMAKE_BINARY_DIR}/bin/${CMAKE_BUILD_TYPE}")
 
 # Project Name
 project(VecMathVisualizer)
