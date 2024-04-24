@@ -1,8 +1,8 @@
 # Source files
 set(SHADER_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Shaders")
-set(SHADER_BINARY_DIR "${CMAKE_BINARY_DIR}/bin/Debug/Shaders")
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+set(SHADER_BINARY_DIR_DEBUG "${CMAKE_CURRENT_BINARY_DIR}/Debug/shaders")
+set(SHADER_BINARY_DIR_RELEASE "${CMAKE_CURRENT_BINARY_DIR}/Release/shaders")
 
 file(GLOB_RECURSE GLSL_SOURCE_FILES
     "${SHADER_SOURCE_DIR}/*.frag"
@@ -11,7 +11,18 @@ file(GLOB_RECURSE GLSL_SOURCE_FILES
 
 foreach(GLSL ${GLSL_SOURCE_FILES})
     get_filename_component(FILE_NAME ${GLSL} NAME)
-    set(SPIRV "${SHADER_BINARY_DIR}/${FILE_NAME}.spv")
+    set(SPIRV "${SHADER_BINARY_DIR_DEBUG}/${FILE_NAME}.spv")
+    add_custom_command(
+        OUTPUT ${SPIRV}
+        COMMAND ${Vulkan_GLSLC_EXECUTABLE} ${GLSL} -o ${SPIRV}
+        DEPENDS ${GLSL}
+    )
+    list(APPEND SPIRV_BINARY_FILES ${SPIRV})
+endforeach(GLSL)
+
+foreach(GLSL ${GLSL_SOURCE_FILES})
+    get_filename_component(FILE_NAME ${GLSL} NAME)
+    set(SPIRV "${SHADER_BINARY_DIR_RELEASE}/${FILE_NAME}.spv")
     add_custom_command(
         OUTPUT ${SPIRV}
         COMMAND ${Vulkan_GLSLC_EXECUTABLE} ${GLSL} -o ${SPIRV}
@@ -61,9 +72,16 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${VECMATH_COMMON_RESOURCE_DIR}
     $<TARGET_FILE_DIR:VecMathVisualizer>/resources
-    )
+
+	COMMAND ${CMAKE_COMMAND} -E make_directory  $<TARGET_FILE_DIR:VecMathVisualizer>/data
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+	${CMAKE_CURRENT_SOURCE_DIR}/../data
+	$<TARGET_FILE_DIR:VecMathVisualizer>/data
+)
+
 target_link_libraries(VecMathVisualizer PUBLIC VecMathLib)
+
 if (UNIX)
-find_package(Threads REQUIRED)
-target_link_libraries(VecMathVisualizer PRIVATE Threads::Threads)
+	find_package(Threads REQUIRED)
+	target_link_libraries(VecMathVisualizer PRIVATE Threads::Threads)
 endif()

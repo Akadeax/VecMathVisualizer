@@ -62,7 +62,7 @@ void vmv::SimpleRenderSystem::CreatePipeline(VkRenderPass renderPass)
     pipelineConfig.renderPass = renderPass;
     pipelineConfig.pipelineLayout = m_PipelineLayout;
     m_pVMVPipeline = std::make_unique<VMVPipeline>(
-        m_VMVDevice, pipelineConfig, "Shaders/simple_shader.vert.spv", "Shaders/simple_shader.frag.spv");
+        m_VMVDevice, pipelineConfig, "shaders/simple_shader.vert.spv", "shaders/simple_shader.frag.spv");
 }
 
 void vmv::SimpleRenderSystem::CreateDescriptorSetLayout()

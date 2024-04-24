@@ -31,7 +31,7 @@ namespace vmv
         void OnDisplayCommand(const std::string& id);
 
       private:
-        VMVWindow m_VMVWindow{WIDTH, HEIGHT, "Hello Vulkan!"};
+        VMVWindow m_VMVWindow{WIDTH, HEIGHT, "VecMath Visualizer"};
         VMVDevice m_VMVDevice{m_VMVWindow};
         VMVRenderer m_VMVRenderer{m_VMVWindow, m_VMVDevice};
 

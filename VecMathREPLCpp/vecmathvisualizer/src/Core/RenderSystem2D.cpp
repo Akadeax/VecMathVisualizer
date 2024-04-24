@@ -53,7 +53,7 @@ void vmv::RenderSystem2D::CreatePipeline(VkRenderPass renderPass)
     pipelineConfig.renderPass = renderPass;
     pipelineConfig.pipelineLayout = m_PipelineLayout;
     m_pVMVPipeline = std::make_unique<VMVPipeline>(
-        m_VMVDevice, pipelineConfig, "Shaders/shader_2D.vert.spv", "Shaders/shader_2D.frag.spv");
+        m_VMVDevice, pipelineConfig, "shaders/shader_2D.vert.spv", "shaders/shader_2D.frag.spv");
 }
 
 void vmv::RenderSystem2D::DrawGameObjects(VMVFrameInfo& frameInfo, std::vector<VMVGameObject>& gameObjects)
