@@ -1,10 +1,10 @@
 #include "VecMathListener.h"
+#include "antlr4-runtime.h"
 
 #include "VecMathLexer.h"
 #include "VecmathVisualizer.h"
 #include "VecMathParser.h"
 #include <iostream>
-#include "antlr4-runtime.h"
 
 VecMathListener listener{};
 vmv::VecmathVisualizer app{};
@@ -32,7 +32,7 @@ int main()
     try
     {
         std::jthread{RunConsole}.detach();
-        listener.OnDisplayVar.Connect([](const std::string& id){ app.OnDisplayCommand(id); });
+        listener.OnDisplayVar.Connect([](const std::string& id){ app.AddVariableDisplay(id, listener.m_VarMap[id].get()); });
         app.Run();
     }
     catch (const std::exception &e)

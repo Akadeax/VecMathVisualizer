@@ -1,6 +1,8 @@
 #ifndef VMV_VECMATHVISUALIZER_H
 #define VMV_VECMATHVISUALIZER_H
 
+#include "IMatrix.h"
+
 #include "Core/VMVCamera.h"
 #include "Core/VMVDevice.h"
 #include "Core/VMVGameObject.h"
@@ -9,9 +11,15 @@
 #include "Core/VMVWindow.h"
 #include <memory>
 #include <vector>
+#include <map>
 
 namespace vmv
 {
+    struct GameObjectAddRequest
+    {
+
+    };
+
     class VecmathVisualizer
     {
       public:
@@ -28,12 +36,17 @@ namespace vmv
 
         void Run();
 
-        void OnDisplayCommand(const std::string& id);
+        void AddVariableDisplay(const std::string& id, IMatrix* pMatrix);
+        void UpdateVariableDisplay(const std::string& id, IMatrix* pMatrix) {}
+        void RemoveVariableDisplay(const std::string& id) {}
 
       private:
         VMVWindow m_VMVWindow{WIDTH, HEIGHT, "VecMath Visualizer"};
         VMVDevice m_VMVDevice{m_VMVWindow};
         VMVRenderer m_VMVRenderer{m_VMVWindow, m_VMVDevice};
+
+        std::map<std::string, VMVGameObject*> m_DisplayObjects{};
+
 
         std::vector<VMVGameObject> m_GameObjects;
         std::vector<VMVGameObject> m_GameObjects2D;

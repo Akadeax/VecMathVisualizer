@@ -14,6 +14,9 @@
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
 
+#include <Scalar.h>
+#include <Vector3D.h>
+
 vmv::VecmathVisualizer::VecmathVisualizer()
 {
     LoadGameObjects();
@@ -66,35 +69,54 @@ void vmv::VecmathVisualizer::Run()
     vkDeviceWaitIdle(m_VMVDevice.device());
 }
 
-void vmv::VecmathVisualizer::OnDisplayCommand(const std::string &id)
+void vmv::VecmathVisualizer::AddVariableDisplay(const std::string &id, IMatrix *pMatrix)
 {
-    m_GameObjects[0].m_Transform.rotation.x += 45;
+    Scalar* asScalar{ dynamic_cast<Scalar*>(pMatrix) };
+    if (asScalar != nullptr)
+    {
+        m_GameObjects[0].m_Transform.rotation.x += asScalar->get(0, 0);
+    }
+
+    Vector3D* asVector3D{ dynamic_cast<Vector3D*>(pMatrix) };
+    if (asVector3D != nullptr)
+    {
+        // TODO: Adding object should happen in loop, this should REQUEST an object add!
+        // Also add arrow model and use it.
+        std::shared_ptr<VMVModel> model{VMVModel::CreateModelFromFile(m_VMVDevice, "data/models/line.obj")};
+        VMVGameObject gameObject{VMVGameObject::CreateGameObject()};
+        gameObject.m_Model = model;
+        gameObject.m_Transform.translation = {asVector3D->get(0, 0), asVector3D->get(0, 1), asVector3D->get(0, 2)};
+        gameObject.m_Transform.scale = {1.f, 1.f, 1.f};
+
+        m_GameObjects.push_back(std::move(gameObject));
+    }
 }
 
+// GameObjects loaded on construction
 void vmv::VecmathVisualizer::LoadGameObjects()
 {
-    std::shared_ptr<VMVModel> model{VMVModel::CreateModelFromFile(m_VMVDevice, "data/models/flat_vase.obj")};
-    VMVGameObject gameObject{VMVGameObject::CreateGameObject()};
-    gameObject.m_Model = model;
-    gameObject.m_Transform.translation = {-0.5f, 0.5f, 2.5f};
-    gameObject.m_Transform.scale = {3.f, 3.f, 3.f};
+    // std::shared_ptr<VMVModel> model{VMVModel::CreateModelFromFile(m_VMVDevice, "data/models/flat_vase.obj")};
+    // VMVGameObject gameObject{VMVGameObject::CreateGameObject()};
+    // gameObject.m_Model = model;
+    // gameObject.m_Transform.translation = {-0.5f, 0.5f, 2.5f};
+    // gameObject.m_Transform.scale = {3.f, 3.f, 3.f};
 
-    m_GameObjects.push_back(std::move(gameObject));
+    // m_GameObjects.push_back(std::move(gameObject));
 
-    std::shared_ptr<VMVModel> model2{VMVModel::CreateModelFromFile(m_VMVDevice, "data/models/smooth_vase.obj")};
-    VMVGameObject gameObject2{VMVGameObject::CreateGameObject()};
-    gameObject2.m_Model = model2;
-    gameObject2.m_Transform.translation = {0.5f, 0.5f, 2.5f};
-    gameObject2.m_Transform.scale = {2.f, 2.f, 2.f};
+    // std::shared_ptr<VMVModel> model2{VMVModel::CreateModelFromFile(m_VMVDevice, "data/models/smooth_vase.obj")};
+    // VMVGameObject gameObject2{VMVGameObject::CreateGameObject()};
+    // gameObject2.m_Model = model2;
+    // gameObject2.m_Transform.translation = {0.5f, 0.5f, 2.5f};
+    // gameObject2.m_Transform.scale = {2.f, 2.f, 2.f};
 
-    m_GameObjects.push_back(std::move(gameObject2));
+    // m_GameObjects.push_back(std::move(gameObject2));
 
 
-    std::shared_ptr<VMVModel> model3{VMVModel::CreateModelFromFile(m_VMVDevice, "data/models/smooth_vase.obj")};
-    VMVGameObject gameObject3{VMVGameObject::CreateGameObject()};
-    gameObject3.m_Model = model3;
-    gameObject3.m_Transform.translation = {0.8f, 0.8f, 0.f};
-    gameObject3.m_Transform.scale = {2.f, 2.f, 2.f};
+    // std::shared_ptr<VMVModel> model3{VMVModel::CreateModelFromFile(m_VMVDevice, "data/models/smooth_vase.obj")};
+    // VMVGameObject gameObject3{VMVGameObject::CreateGameObject()};
+    // gameObject3.m_Model = model3;
+    // gameObject3.m_Transform.translation = {0.8f, 0.8f, 0.f};
+    // gameObject3.m_Transform.scale = {2.f, 2.f, 2.f};
 
-    m_GameObjects2D.push_back(std::move(gameObject3));
+    // m_GameObjects2D.push_back(std::move(gameObject3));
 }
