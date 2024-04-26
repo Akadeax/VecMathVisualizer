@@ -162,7 +162,7 @@ void vmv::VMVModel::Builder::LoadModel(const std::string& filePath)
 
     if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, filePath.c_str()))
     {
-        std::cout << "Model load failed!\n";
+        std::cout << "Model load failed: " << filePath << '\n';
         throw std::runtime_error(warn + err);
     }
 

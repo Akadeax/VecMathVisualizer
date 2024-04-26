@@ -9,17 +9,13 @@
 #include "Core/VMVModel.h"
 #include "Core/VMVRenderer.h"
 #include "Core/VMVWindow.h"
-#include <memory>
-#include <vector>
 #include <map>
+#include <memory>
+#include <queue>
+#include <vector>
 
 namespace vmv
 {
-    struct GameObjectAddRequest
-    {
-
-    };
-
     class VecmathVisualizer
     {
       public:
@@ -45,13 +41,16 @@ namespace vmv
         VMVDevice m_VMVDevice{m_VMVWindow};
         VMVRenderer m_VMVRenderer{m_VMVWindow, m_VMVDevice};
 
-        std::map<std::string, VMVGameObject*> m_DisplayObjects{};
+        std::queue<VMVGameObject> m_ToAddNextFrame{};
 
+        std::map<std::string, VMVGameObject*> m_DisplayObjects{};
 
         std::vector<VMVGameObject> m_GameObjects;
         std::vector<VMVGameObject> m_GameObjects2D;
 
-        void LoadGameObjects();
+        std::shared_ptr<VMVModel> m_ArrowBodyModel;
+
+        void Load();
     };
 } // namespace vmv
 

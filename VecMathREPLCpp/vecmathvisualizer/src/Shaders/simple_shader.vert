@@ -19,7 +19,7 @@ layout(binding = 0) uniform UniformBufferObject {
 } globalUbo;
 
 const vec3 DIRECTION_TO_LIGHT = normalize(vec3(1.0, -3.0, -1.0));
-const float AMBIENT = 0.1;
+const float AMBIENT = 0.3;
 
 void main()
 {
