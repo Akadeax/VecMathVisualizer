@@ -2,6 +2,8 @@
 
 #Available commands
 help or '?': prints this very helpful message.
+display variableName : show a variable in the visualizer. set the 'color' variable to change the color of this.
+clearDisplay : remove all elements from the visualizer display.
 precision number : sets the floating point precision (for output!) to the specified number of decimal places.
 print variableName : prints the value of the variable name to output.
 printAll : prints the values of all the current variables to output.

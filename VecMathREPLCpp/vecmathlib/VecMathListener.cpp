@@ -125,6 +125,10 @@ void VecMathListener::exitCommand(VecMath::VecMathParser::CommandContext* ctx)
     {
         printMarkDown(m_HelpString);
     }
+    else if (ctx->CLEARDISPLAY() != nullptr)
+    {
+        OnClearDisplay.Emit();
+    }
 }
 
 void VecMathListener::exitAssign(VecMath::VecMathParser::AssignContext* ctx)
@@ -204,13 +208,27 @@ void VecMathListener::exitDisplay(VecMath::VecMathParser::DisplayContext* ctx)
             return;
         }
 
-        std::cout << "Displaying " << id << ".\n";
-        OnDisplayVar.Emit(id);
+        float r = 1, g = 1, b = 1;
+        if (m_VarMap.find("color") != m_VarMap.end())
+        {
+            Vector3D* vec = dynamic_cast<Vector3D*>(m_VarMap["color"].get());
+            if (vec != nullptr)
+            {
+                r = vec->get(0, 0);
+                g = vec->get(0, 1);
+                b = vec->get(0, 2);
+            }
+        }
+
+        std::cout << "Displaying " << id << " with color "
+                  << "[" << r << ", " << g << ", " << b << "]. To change this, set the 'color' variable to a Vector3."
+                  << '\n';
+        OnDisplayVar.Emit(id, r, g, b);
     }
     else
     {
         m_Console.SetColor(Console::VMF_BRIGHTRED);
-        std::cout << "Use the display statement with a variable id, for example: 'display var'\n";
+        std::cout << "Use the display statement with a variable id and a color, for example: 'display var [1,0,0]'\n";
     }
 }
 

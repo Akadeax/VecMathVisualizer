@@ -9,6 +9,7 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/hash.hpp>
+#include <glm/gtx/string_cast.hpp>
 #include <iostream>
 
 // Apparently this is the way recommended by https://en.cppreference.com/w/cpp/utility/hash
@@ -34,10 +35,12 @@ vmv::VMVModel::VMVModel(VMVDevice& device, const Builder& builder) : m_VMVDevice
 
 vmv::VMVModel::~VMVModel() {}
 
-std::unique_ptr<vmv::VMVModel> vmv::VMVModel::CreateModelFromFile(VMVDevice& device, const std::string& filePath)
+std::unique_ptr<vmv::VMVModel> vmv::VMVModel::CreateModelFromFile(VMVDevice& device,
+                                                                  const std::string& filePath,
+                                                                  glm::vec4 color)
 {
     Builder builder{};
-    builder.LoadModel(filePath);
+    builder.LoadModel(filePath, color);
 
     return std::make_unique<VMVModel>(device, builder);
 }
@@ -152,7 +155,7 @@ std::vector<VkVertexInputAttributeDescription> vmv::VMVModel::Vertex::GetAttribu
     return attributeDescriptions;
 }
 
-void vmv::VMVModel::Builder::LoadModel(const std::string& filePath)
+void vmv::VMVModel::Builder::LoadModel(const std::string& filePath, glm::vec4 color)
 {
     using namespace tinyobj;
     attrib_t attrib;
@@ -204,6 +207,8 @@ void vmv::VMVModel::Builder::LoadModel(const std::string& filePath)
                 vertex.uv = {attrib.texcoords[2 * index.texcoord_index + 0],
                              attrib.texcoords[2 * index.texcoord_index + 1]};
             }
+
+            vertex.color = color; // Set uniform color for all vertices
 
             if (uniqueVertices.count(vertex) == 0)
             {

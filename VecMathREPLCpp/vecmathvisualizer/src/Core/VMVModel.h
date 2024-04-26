@@ -34,7 +34,7 @@ namespace vmv
             std::vector<Vertex> vertices{};
             std::vector<uint32_t> indices{};
 
-            void LoadModel(const std::string& filePath);
+            void LoadModel(const std::string& filePath, glm::vec4 color);
         };
 
         VMVModel(VMVDevice& device, const Builder& builder);
@@ -45,7 +45,7 @@ namespace vmv
         VMVModel& operator=(const VMVModel&) = delete;
         VMVModel& operator=(VMVModel&&) noexcept = delete;
 
-        static std::unique_ptr<VMVModel> CreateModelFromFile(VMVDevice& device, const std::string& filePath);
+        static std::unique_ptr<VMVModel> CreateModelFromFile(VMVDevice& device, const std::string& filePath, glm::vec4 color);
 
         void Bind(VkCommandBuffer commandBuffer);
         void Draw(VkCommandBuffer commandBuffer);

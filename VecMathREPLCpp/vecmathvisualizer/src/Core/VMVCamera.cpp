@@ -53,14 +53,14 @@ void vmv::VMVCamera::SetViewTarget(glm::vec3 position, glm::vec3 target, glm::ve
     SetViewDirection(position, target - position, up);
 }
 
-void vmv::VMVCamera::SetViewEuler(glm::vec3 position, glm::vec3 rotationEuler)
+void vmv::VMVCamera::SetViewEuler(glm::vec3 position, float yaw, float pitch)
 {
-    const float c3 = glm::cos(rotationEuler.z);
-    const float s3 = glm::sin(rotationEuler.z);
-    const float c2 = glm::cos(rotationEuler.x);
-    const float s2 = glm::sin(rotationEuler.x);
-    const float c1 = glm::cos(rotationEuler.y);
-    const float s1 = glm::sin(rotationEuler.y);
+    const float c3 = glm::cos(0);
+    const float s3 = glm::sin(0);
+    const float c2 = glm::cos(yaw);
+    const float s2 = glm::sin(yaw);
+    const float c1 = glm::cos(pitch);
+    const float s1 = glm::sin(pitch);
     const glm::vec3 u{(c1 * c3 + s1 * s2 * s3), (c2 * s3), (c1 * s2 * s3 - c3 * s1)};
     const glm::vec3 v{(c3 * s1 * s2 - c1 * s3), (c2 * c3), (c1 * c3 * s2 + s1 * s3)};
     const glm::vec3 w{(c2 * s1), (-s2), (c1 * c2)};

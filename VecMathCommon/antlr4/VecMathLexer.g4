@@ -38,6 +38,7 @@ PRINT: 'print';
 PRECISION: 'precision';
 PRINTALL: 'printAll';
 DISPLAY: 'display';
+CLEARDISPLAY: 'clearDisplay';
 EXIT: 'bye' | 'exit';
 CLEAR: 'clear';
 JOKE: 'joke';

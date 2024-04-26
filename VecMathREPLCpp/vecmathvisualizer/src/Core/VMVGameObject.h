@@ -11,9 +11,6 @@ namespace vmv
     {
         glm::vec3 translation{};
         glm::vec3 scale{1.f, 1.f, 1.f};
-        glm::vec3 rotation{};
-
-        bool onlyRotate = false;
         float pitch, yaw;
 
         glm::mat4 GetMat() const;
@@ -37,6 +34,7 @@ namespace vmv
         glm::vec3 m_Color{};
 
         Transform m_Transform{};
+        bool m_Show{true};
 
       private:
         VMVGameObject(id_t id);

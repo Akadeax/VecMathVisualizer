@@ -32,8 +32,10 @@ int main()
     try
     {
         std::jthread{RunConsole}.detach();
-        listener.OnDisplayVar.Connect(
-            [](const std::string& id) { app.AddVariableDisplay(id, listener.m_VarMap[id].get()); });
+        listener.OnDisplayVar.Connect([](const std::string& id, float r, float g, float b) {
+            app.AddVariableDisplay(id, listener.m_VarMap[id].get(), r, g, b);
+        });
+        listener.OnClearDisplay.Connect([]() { app.ClearVariableDisplays(); });
         app.Run();
     }
     catch (const std::exception& e)

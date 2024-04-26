@@ -41,3 +41,5 @@ A: The float answered "No! You're not my type!"
 Q: What do you call a hen that can count?
 A: A mathemachicken!
 S: I had a irrational fear of speedbumps, but I'm slowly getting over it.
+Q: What do you call dudes who love math?
+A: Algebros.

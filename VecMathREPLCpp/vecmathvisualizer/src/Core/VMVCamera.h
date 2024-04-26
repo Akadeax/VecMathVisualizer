@@ -15,7 +15,7 @@ namespace vmv
 
         void SetViewDirection(glm::vec3 position, glm::vec3 direction, glm::vec3 up = glm::vec3{0.f, -1.f, 0.f});
         void SetViewTarget(glm::vec3 position, glm::vec3 target, glm::vec3 up = glm::vec3{0.f, -1.f, 0.f});
-        void SetViewEuler(glm::vec3 position, glm::vec3 rotationEuler);
+        void SetViewEuler(glm::vec3 position, float yaw, float pitch);
         const glm::mat4& GetProjection() const { return m_ProjectionMatrix; }
         const glm::mat4& GetView() const { return m_ViewMatrix; }
 

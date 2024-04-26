@@ -13,7 +13,8 @@
 class VecMathListener : public VecMath::VecMathParserBaseListener, public antlr4::ANTLRErrorListener
 {
   public:
-    Signal<const std::string> OnDisplayVar{};
+    Signal<const std::string, float, float, float> OnDisplayVar{};
+    Signal<> OnClearDisplay{};
 
     VecMathListener();
 

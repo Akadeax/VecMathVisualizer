@@ -16,6 +16,13 @@
 
 namespace vmv
 {
+    struct GameObjectAddRequest
+    {
+        std::string modelPath;
+        glm::vec4 color;
+        VMVGameObject gameObject;
+    };
+
     class VecmathVisualizer
     {
       public:
@@ -32,23 +39,18 @@ namespace vmv
 
         void Run();
 
-        void AddVariableDisplay(const std::string& id, IMatrix* pMatrix);
-        void UpdateVariableDisplay(const std::string& id, IMatrix* pMatrix) {}
-        void RemoveVariableDisplay(const std::string& id) {}
+        void AddVariableDisplay(const std::string& id, IMatrix* pMatrix, float r, float g, float b);
+        void ClearVariableDisplays();
 
       private:
         VMVWindow m_VMVWindow{WIDTH, HEIGHT, "VecMath Visualizer"};
         VMVDevice m_VMVDevice{m_VMVWindow};
         VMVRenderer m_VMVRenderer{m_VMVWindow, m_VMVDevice};
 
-        std::queue<VMVGameObject> m_ToAddNextFrame{};
-
-        std::map<std::string, VMVGameObject*> m_DisplayObjects{};
+        std::queue<GameObjectAddRequest> m_ToAddNextFrame{};
 
         std::vector<VMVGameObject> m_GameObjects;
         std::vector<VMVGameObject> m_GameObjects2D;
-
-        std::shared_ptr<VMVModel> m_ArrowBodyModel;
 
         void Load();
     };

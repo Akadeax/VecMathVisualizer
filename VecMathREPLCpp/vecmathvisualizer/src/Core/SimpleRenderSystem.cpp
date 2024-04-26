@@ -176,6 +176,9 @@ void vmv::SimpleRenderSystem::DrawGameObjects(VMVFrameInfo& frameInfo, std::vect
 
     for (VMVGameObject& go : gameObjects)
     {
+        if (go.m_Show == false)
+            continue;
+
         ObjectTransformPushConstant push{};
         push.model = go.m_Transform.GetMat();
         push.normalMatrix = go.m_Transform.NormalMatrix();
