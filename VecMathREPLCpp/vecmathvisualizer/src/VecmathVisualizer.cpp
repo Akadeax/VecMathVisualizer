@@ -37,6 +37,7 @@ void vmv::VecmathVisualizer::Run()
     SimpleRenderSystem renderSystem{m_VMVDevice, m_VMVRenderer.GetSwapChainRenderPass()};
 
     VMVGameObject viewer{VMVGameObject::CreateGameObject()};
+    viewer.m_Transform.translation = glm::vec3{0,0, -5};
     VMVCamera camera{};
 
     KeyboardMovementController input{};
