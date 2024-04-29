@@ -21,10 +21,15 @@ namespace vmv
             int lookRight = GLFW_KEY_RIGHT;
             int lookUp = GLFW_KEY_UP;
             int lookDown = GLFW_KEY_DOWN;
+            int moveFast = GLFW_KEY_LEFT_SHIFT;
         };
 
         KeyMappings keys{};
-        float moveSpeed{3.f};
+        float currentMoveSpeed{3.f};
+
+        const float moveSpeed{3.f};
+        const float moveSpeedFast{15.f};
+
         float lookSpeed{1.5f};
 
         void MoveInPlaneXZ(GLFWwindow* window, float dt, VMVGameObject& go);

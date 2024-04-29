@@ -38,7 +38,7 @@ void VecMathListener::promptHeader() const
 {
     printInfo("VecMath REPL shell 1.0.7 - Koen Samyn - 2022");
     printInfo("please report issues at https://github.com/samynk/VecMath");
-    printInfo("Visualizer controls: WASD to move in XZ plane, Q down, E up, arrow keys to rotate camera");
+    printInfo("Visualizer controls: WASD to move in XZ plane, Q down, E up (hold left shift to move faster), arrow keys to rotate camera");
 }
 
 void VecMathListener::readHelp()

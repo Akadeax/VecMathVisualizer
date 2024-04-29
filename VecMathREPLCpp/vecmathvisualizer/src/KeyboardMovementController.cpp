@@ -15,6 +15,15 @@ void vmv::KeyboardMovementController::MoveInPlaneXZ(GLFWwindow* window, float dt
     if (glfwGetKey(window, keys.lookDown) == GLFW_PRESS)
         inputYaw -= 1.f;
 
+    if (glfwGetKey(window, keys.moveFast))
+    {
+        currentMoveSpeed = moveSpeedFast;
+    }
+    else
+    {
+        currentMoveSpeed = moveSpeed;
+    }
+
     if (inputYaw != 0)
         go.m_Transform.yaw += inputYaw * dt * lookSpeed;
     if (inputPitch != 0)
@@ -39,5 +48,5 @@ void vmv::KeyboardMovementController::MoveInPlaneXZ(GLFWwindow* window, float dt
         moveDir -= up;
 
     if (glm::dot(moveDir, moveDir) > std::numeric_limits<float>::epsilon())
-        go.m_Transform.translation += moveSpeed * dt * glm::normalize(moveDir);
+        go.m_Transform.translation += currentMoveSpeed * dt * glm::normalize(moveDir);
 }

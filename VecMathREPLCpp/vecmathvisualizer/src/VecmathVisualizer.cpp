@@ -23,6 +23,7 @@
 #include <Scalar.h>
 #include <Vector3D.h>
 #include <iostream>
+#include <Quaternion.h>
 
 vmv::VecmathVisualizer::VecmathVisualizer()
 {
@@ -91,29 +92,47 @@ void vmv::VecmathVisualizer::AddVariableDisplay(const std::string& id, IMatrix* 
 {
     glm::vec4 color{r, g, b, 1};
 
-    Scalar* asScalar{dynamic_cast<Scalar*>(pMatrix)};
-    if (asScalar != nullptr)
-    {
-    }
-
     Vector3D* asVector3D{dynamic_cast<Vector3D*>(pMatrix)};
     if (asVector3D != nullptr)
     {
         VMVGameObject gameObject{VMVGameObject::CreateGameObject()};
         glm::vec3 pos{asVector3D->get(0, 0), asVector3D->get(0, 1), asVector3D->get(0, 2)};
 
-        float r{std::sqrtf(pos.x * pos.x + pos.y * pos.y + pos.z * pos.z)};
+        float len{std::sqrtf(pos.x * pos.x + pos.y * pos.y + pos.z * pos.z)};
 
-        float yAngle{std::acosf(pos.y / r)};
+        float yAngle{std::acosf(pos.y / len)};
         float xAngle{std::atan2f(pos.z, pos.x)};
 
         gameObject.m_Transform.pitch = 3.1415f - yAngle;
         gameObject.m_Transform.yaw = xAngle;
 
-        gameObject.m_Transform.scale = {0.75f, r, 0.75f};
+        gameObject.m_Transform.scale = {0.75f, len, 0.75f};
 
         m_ToAddNextFrame.push(GameObjectAddRequest{"data/models/arrow_body.obj", color, std::move(gameObject)});
+        return;
     }
+
+    Quaternion* asQuaternion{dynamic_cast<Quaternion*>(pMatrix)};
+    if (asQuaternion != nullptr)
+    {
+        VMVGameObject gameObject{VMVGameObject::CreateGameObject()};
+        glm::vec3 pos{asQuaternion->get(0, 0), asQuaternion->get(0, 1), asQuaternion->get(0, 2)};
+
+        float len{1};
+
+        float yAngle{std::acosf(pos.y / len)};
+        float xAngle{std::atan2f(pos.z, pos.x)};
+
+        gameObject.m_Transform.pitch = 3.1415f - yAngle;
+        gameObject.m_Transform.yaw = xAngle;
+
+        gameObject.m_Transform.scale = {0.5f, len, 0.5f};
+
+        m_ToAddNextFrame.push(GameObjectAddRequest{"data/models/arrow_body.obj", color, std::move(gameObject)});
+        return;
+    }
+
+    std::cout << "Cannot display this data type!\n";
 }
 
 void vmv::VecmathVisualizer::ClearVariableDisplays()
