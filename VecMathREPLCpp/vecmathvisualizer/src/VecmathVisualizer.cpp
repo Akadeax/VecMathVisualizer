@@ -118,7 +118,7 @@ void vmv::VecmathVisualizer::AddVariableDisplay(const std::string& id, IMatrix* 
         VMVGameObject gameObject{VMVGameObject::CreateGameObject()};
         glm::vec3 pos{asQuaternion->get(0, 0), asQuaternion->get(0, 1), asQuaternion->get(0, 2)};
 
-        float len{1};
+        float len{std::sqrtf(pos.x * pos.x + pos.y * pos.y + pos.z * pos.z)};
 
         float yAngle{std::acosf(pos.y / len)};
         float xAngle{std::atan2f(pos.z, pos.x)};
